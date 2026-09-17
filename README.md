@@ -3,8 +3,6 @@
 An academic, reproducible, unsupervised machine learning project designed to detect anomalous or unusual water-quality observations from multivariate sensor measurements.
 
 ---
-## Live Demo
-https://water-quality-anomaly-detection-systemvityarthiproject-z225c6r.streamlit.app/
 
 ## 1. Project Title
 **AI-Based Water Quality Anomaly Detection System using Machine Learning**
@@ -20,14 +18,14 @@ Detecting water contamination or sensor degradation manually across multi-parame
 ## 4. Motivation
 - **Multivariate Dynamics**: Water quality cannot be judged purely by individual parameter thresholds; combinations of parameters (e.g., normal pH combined with abnormally high conductivity and turbidity) indicate anomalies.
 - **Label Scarcity**: Real-world anomaly datasets rarely have exhaustive ground-truth anomaly labels. Unsupervised anomaly detection algorithms learn the underlying structure directly from unlabelled observation space.
-- **Academic Rigor**: Demonstrates correct ML practices—preventing data leakage, applying statistical preprocessing, comparing multiple model paradigms, generating actual data-driven visualizations, and delivering an interactive CLI application.
+- **Academic Rigor**: Demonstrates correct ML practices—preventing data leakage, applying statistical preprocessing, comparing multiple model paradigms, generating actual data-driven visualizations, delivering interactive CLI (`main.py`) & Web Dashboard (`app.py`), and providing unit tests (`tests/`).
 
 ## 5. Objectives
 1. Build a non-leakage preprocessing pipeline for water quality feature matrices.
 2. Train an unsupervised **Isolation Forest** model to compute anomaly predictions and continuous decision scores.
 3. Compare performance against **Local Outlier Factor (LOF)** and **One-Class SVM**.
 4. Generate 4 publication-quality visualization figures (`results/*.png`).
-5. Provide a interactive Command-Line Interface (`main.py`) with input validation and authentic dataset example tests.
+5. Provide a Command-Line Interface (`main.py`), a Web Dashboard (`app.py`), automated unit tests (`tests/`), and a complete 15-section PDF report guide (`docs/PROJECT_REPORT.md`).
 
 ## 6. Dataset
 - **Dataset**: Kaggle Water Potability Dataset (`water_potability.csv`)
@@ -56,11 +54,13 @@ The system evaluates 9 scientifically meaningful numerical features:
 > **Note**: Ground-truth column `Potability` (1,278 potable / 1,998 non-potable) is **excluded from model training** and used strictly for optional reference correlation analysis.
 
 ## 9. Technologies Used
-- **Language**: Python 3.13+
+- **Language**: Python 3.10+
 - **Data Manipulation**: `pandas`, `numpy`
 - **Machine Learning**: `scikit-learn`
 - **Model Serialization**: `joblib`
 - **Data Visualization**: `matplotlib`, `seaborn`
+- **Web Interface**: `streamlit`
+- **Testing**: `unittest`
 
 ## 10. Project Structure
 ```
@@ -68,6 +68,9 @@ AI-Water-Quality-Anomaly-Detection/
 │
 ├── data/
 │   └── water_potability.csv           # Authentic public water dataset
+│
+├── docs/
+│   └── PROJECT_REPORT.md             # Complete 15-Section PDF submission report
 │
 ├── models/
 │   ├── isolation_forest.pkl          # Saved primary trained model
@@ -87,7 +90,15 @@ AI-Water-Quality-Anomaly-Detection/
 │   ├── predict.py                    # Inference engine class
 │   └── utils.py                      # Authentic sample retrieval & helpers
 │
+├── tests/
+│   └── test_pipeline.py              # Automated unit test suite (5 tests)
+│
 ├── main.py                           # Interactive CLI Application
+├── app.py                            # Interactive Streamlit Web Dashboard
+├── run.bat                           # 1-Click Windows Batch Launcher
+├── run.sh                            # 1-Click Linux/macOS Shell Launcher
+├── Dockerfile                        # Docker containerization specification
+├── statement.md                      # GitHub requirement document (Section 5.2)
 ├── requirements.txt                  # Exact project dependencies
 ├── README.md                         # Detailed project documentation
 └── .gitignore                        # Git exclusion rules
@@ -225,36 +236,75 @@ print(result['prediction'])      # Output: ANOMALOUS
 print(result['anomaly_score'])   # Output: negative score e.g. -0.0852
 ```
 
-## 24. Command-Line Interface (CLI) Examples
-Run the terminal application:
+## 24. Command-Line & Web Application Examples
+
+### Running Terminal Application
 ```bash
 python main.py
 ```
 
-### CLI Menu Preview
-```
-==================================================
-   AI WATER QUALITY ANOMALY DETECTION SYSTEM
-==================================================
-CHOOSE AN OPTION:
- 1. Enter water-quality values manually
- 2. Use an example NORMAL water sample (from dataset)
- 3. Use an example ANOMALOUS water sample (from dataset)
- 4. View model summary & dataset statistics
- 5. Exit
+### Running Streamlit Web Dashboard
+```bash
+streamlit run app.py
 ```
 
-## 25. Scientific Limitations
+## 25. Instructions for Testing
+To execute the automated unit test suite:
+```bash
+python -m unittest discover -s tests
+```
+*Expected Output*: `Ran 5 tests in 1.357s - OK`.
+
+## 26. Scientific Limitations
 - **Educational System**: Designed for academic ML demonstration.
 - **Non-Diagnostic**: An anomaly flag indicates statistical divergence from dataset patterns; it does **not** automatically prove that water is toxic or unsafe for human consumption.
 - **Sensor Drift vs Real Contamination**: Anomalies can be caused by physical sensor failure as well as actual water pollution.
 
-## 26. Future Scope
-1. Integrate time-series sequence models (LSTM / Autoencoders) for temporal water monitoring.
-2. Incorporate streaming pipeline tools (Apache Kafka) for real-time sensor ingestion.
-3. Add explainable AI (SHAP / LIME) to highlight feature contribution weights per anomaly.
-
-## 27. Conclusion
-This project successfully demonstrates an end-to-end, reproducible, unsupervised water-quality anomaly detection system using Isolation Forest. The model effectively identifies multivariate statistical outliers, supported by LOF and One-Class SVM comparisons, non-leakage preprocessing, data visualizations, and an interactive CLI application.
+## 27. Future Scope & Conclusion
+This project successfully demonstrates an end-to-end, reproducible, unsupervised water-quality anomaly detection system using Isolation Forest. The model effectively identifies multivariate statistical outliers, supported by LOF and One-Class SVM comparisons, non-leakage preprocessing, data visualizations, automated unit tests, and interactive user interfaces.
 
 ---
+
+## Academic Viva Preparation Q&A
+
+### 1. What is anomaly detection?
+Anomaly detection is the identification of rare items, events, or observations that raise suspicions by differing significantly from the majority of the data.
+
+### 2. Why is this an unsupervised learning problem?
+Because in real-world water quality monitoring, explicit labels for every possible type of contamination or anomaly are unavailable. Unsupervised models learn the natural distribution of normal data and flag points that do not conform.
+
+### 3. What is Isolation Forest?
+Isolation Forest is an unsupervised tree-based ensemble algorithm that isolates anomalies by randomly selecting a feature and randomly selecting a split value between the feature's minimum and maximum values.
+
+### 4. How does Isolation Forest identify anomalies?
+Random partitioning produces noticeably shorter paths for anomalies because fewer conditions are required to isolate unusual points that differ from the dense cluster of normal points.
+
+### 5. What is contamination?
+The contamination parameter defines the expected proportion of anomalies in the dataset (e.g., 0.05 = 5%). It sets the decision score threshold for partitioning points into NORMAL vs ANOMALOUS.
+
+### 6. Why is preprocessing important?
+Preprocessing cleans missing values and standardizes feature scaling, preventing invalid numerical entries or missing values from crashing the model or skewing model distances.
+
+### 7. Why might feature scaling matter?
+Distance-based and boundary-based models (LOF and One-Class SVM) rely on Euclidean distances. Unscaled features with large numerical magnitudes (e.g., TDS in tens of thousands) would dominate features with small magnitudes (e.g., pH from 0 to 14).
+
+### 8. What is Local Outlier Factor (LOF)?
+LOF is a density-based anomaly detection algorithm that compares the local density of an observation with the local densities of its $k$-nearest neighbors.
+
+### 9. What is the difference between classification and anomaly detection?
+Classification maps inputs to predefined target classes using labeled training data. Anomaly detection models the normal structure of data without relying on target labels and identifies outliers that deviate from that structure.
+
+### 10. What is an anomaly score?
+An anomaly score is a continuous numeric output produced by the model (e.g., Isolation Forest decision function) quantifying how normal or anomalous an observation is.
+
+### 11. Why is anomaly score NOT necessarily a probability?
+Anomaly scores are decision function outputs (or path length metrics) derived from tree depths or density ratios. They are not calibrated probabilities constrained to $[0, 1]$ and do not represent probability distribution functions.
+
+### 12. How are anomalies evaluated when ground-truth labels do not exist?
+Through unsupervised metrics: anomaly count, contamination percentage, score distributions, inter-model agreement overlap, and visual inspections (PCA 2D projection and feature boxplots).
+
+### 13. What are the limitations of the model?
+The model relies on static tabular data without temporal sequence modeling and assumes the training set represents typical baseline water quality.
+
+### 14. Why does an anomalous observation not automatically mean unsafe water?
+An anomaly signifies statistical divergence from historical observations (e.g. unusually high mineral content or unusual pH/conductivity combo). High mineral content can be safe, or a sensor may be miscalibrated. Physical chemical analysis is required to verify safety.
