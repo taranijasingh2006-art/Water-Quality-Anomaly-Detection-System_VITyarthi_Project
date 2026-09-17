@@ -3,6 +3,8 @@
 An academic, reproducible, unsupervised machine learning project designed to detect anomalous or unusual water-quality observations from multivariate sensor measurements.
 
 ---
+## Live Demo
+https://water-quality-anomaly-detection-systemvityarthiproject-z225c6r.streamlit.app/
 
 ## 1. Project Title
 **AI-Based Water Quality Anomaly Detection System using Machine Learning**
@@ -264,47 +266,3 @@ python -m unittest discover -s tests
 This project successfully demonstrates an end-to-end, reproducible, unsupervised water-quality anomaly detection system using Isolation Forest. The model effectively identifies multivariate statistical outliers, supported by LOF and One-Class SVM comparisons, non-leakage preprocessing, data visualizations, automated unit tests, and interactive user interfaces.
 
 ---
-
-## Academic Viva Preparation Q&A
-
-### 1. What is anomaly detection?
-Anomaly detection is the identification of rare items, events, or observations that raise suspicions by differing significantly from the majority of the data.
-
-### 2. Why is this an unsupervised learning problem?
-Because in real-world water quality monitoring, explicit labels for every possible type of contamination or anomaly are unavailable. Unsupervised models learn the natural distribution of normal data and flag points that do not conform.
-
-### 3. What is Isolation Forest?
-Isolation Forest is an unsupervised tree-based ensemble algorithm that isolates anomalies by randomly selecting a feature and randomly selecting a split value between the feature's minimum and maximum values.
-
-### 4. How does Isolation Forest identify anomalies?
-Random partitioning produces noticeably shorter paths for anomalies because fewer conditions are required to isolate unusual points that differ from the dense cluster of normal points.
-
-### 5. What is contamination?
-The contamination parameter defines the expected proportion of anomalies in the dataset (e.g., 0.05 = 5%). It sets the decision score threshold for partitioning points into NORMAL vs ANOMALOUS.
-
-### 6. Why is preprocessing important?
-Preprocessing cleans missing values and standardizes feature scaling, preventing invalid numerical entries or missing values from crashing the model or skewing model distances.
-
-### 7. Why might feature scaling matter?
-Distance-based and boundary-based models (LOF and One-Class SVM) rely on Euclidean distances. Unscaled features with large numerical magnitudes (e.g., TDS in tens of thousands) would dominate features with small magnitudes (e.g., pH from 0 to 14).
-
-### 8. What is Local Outlier Factor (LOF)?
-LOF is a density-based anomaly detection algorithm that compares the local density of an observation with the local densities of its $k$-nearest neighbors.
-
-### 9. What is the difference between classification and anomaly detection?
-Classification maps inputs to predefined target classes using labeled training data. Anomaly detection models the normal structure of data without relying on target labels and identifies outliers that deviate from that structure.
-
-### 10. What is an anomaly score?
-An anomaly score is a continuous numeric output produced by the model (e.g., Isolation Forest decision function) quantifying how normal or anomalous an observation is.
-
-### 11. Why is anomaly score NOT necessarily a probability?
-Anomaly scores are decision function outputs (or path length metrics) derived from tree depths or density ratios. They are not calibrated probabilities constrained to $[0, 1]$ and do not represent probability distribution functions.
-
-### 12. How are anomalies evaluated when ground-truth labels do not exist?
-Through unsupervised metrics: anomaly count, contamination percentage, score distributions, inter-model agreement overlap, and visual inspections (PCA 2D projection and feature boxplots).
-
-### 13. What are the limitations of the model?
-The model relies on static tabular data without temporal sequence modeling and assumes the training set represents typical baseline water quality.
-
-### 14. Why does an anomalous observation not automatically mean unsafe water?
-An anomaly signifies statistical divergence from historical observations (e.g. unusually high mineral content or unusual pH/conductivity combo). High mineral content can be safe, or a sensor may be miscalibrated. Physical chemical analysis is required to verify safety.
